@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100 w-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress bar календарь</title>
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="highlight/default.min.css">
+    <link rel="stylesheet" href="highlight/a11y-dark.css">
+</head>
+
+<body class="container">
+    <!-- {
+        'date',
+        'holiday',
+        'weekend'
+    } -->
+
+    <div style="margin: 4em 0; text-align: left;">
+        <h3>Установка</h3>
+        <p>Загрузить <a href="https://getbootstrap.com/">Bootstrap</a>,
+            Popper.js первой версии для bootstrap версии 4.5.3 и ниже <a href="https://github.com/popperjs/popper-core/releases/tag/v1.16.1-lts">Popper.js 1.16.1</a> 
+            и <a href="https://jquery.com/download/">Jquery</a>
+        </p>
+
+        <p>Внутри тега <b>&lt;head&gt;</b> инициализировать css стили bootstrap:</p>
+        <pre style="margin-bottom: 0;">
+            <code class="language-html">
+                &lt;link rel="stylesheet" href="bootstrap.min.css"&gt;
+            </code>
+        </pre>
+
+        <p>Перед загрывающимся тегом <b>&lt;/body&gt;</b> инициализировать jquery, popper и bootstrap:</p>
+
+        <pre>
+            <code class="language-html">
+                &lt;script src="jquery-3.5.1.min.js"&gt;&lt;/script&gt;
+                &lt;script src="popper.min.js"&gt;&lt;/script&gt;
+                &lt;script src="bootstrap.min.js"&gt;&lt;/script&gt;
+            </code>
+        </pre>
+
+        <h3>Tooltip от <a href="https://popper.js.org/docs/v1/">popper.js</a></h3>
+        <p style="margin-bottom: 0; margin-top: 1em;"><b>Применение</b></p>
+        <p>В tooltip можно указать текущий день, праздник, другую необходимую информацию для отображения при наведении курсора на день.</p>
+        
+
+        <p style="margin-bottom: 0; margin-top: 1em;"><b>Описание</b></p>
+        <p>Указание текущей даты, типа дня, праздника и другой информации при наведение курсора на день в календаре, 
+            происходит через аттрибут <b>data-toggle</b>, <b>data-placement</b> и <b>title</b>.
+        </p>
+
+        <p>Возможно так же изменить фон подсказок, создав свой шаблон в JS, например синий фон для tooltip</p>
+        <p style="margin-bottom: 0;"><b>JS код</b></p>
+        <pre style="margin-bottom: 0;">
+            <code class="language-jsx">
+                $('[data-toggle="tooltip-primary"]').tooltip({
+                    template: '&lt;div class="tooltip" role="tooltip"&gt;
+                                    &lt;div class="arrow color-primary"&gt;&lt;/div&gt;
+                                    &lt;div class="tooltip-inner bg-primary"&gt;&lt;/div&gt;
+                                &lt;/div&gt;'
+                });
+            </code>
+        </pre>
+
+        <p>Для использования достаточно указать <b>data-toggle="tooltip-primary"</b></p>
+
+        <p style="margin-bottom: 0; margin-top: 1em;"><b>Tooltip с primary фоном</b></p>
+        <div class="progress mg-b-2">
+            <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip-primary" data-placement="top" title="1 Декабря"  style="width: calc((1% / 31) * 100);"></div>
+        </div>
+
+        <h3 style="margin-bottom: 0; margin-top: 1em;">Типы дней в календаре</h3>
+
+        <details open>
+            <summary><h4 style="display: inline;">Рабочий день</h4></summary>
+    
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Описание</b></p>
+            <p><b>progress__workday</b> - CSS класс отображающий будний день в календаре.</p>
+    
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Отображение</b></p>
+            <div class="progress mg-b-2">
+                <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="1 Декабря"  style="width: calc((1% / 31) * 100);"></div>
+            </div>
+
+
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>HTML код</b></p>
+            <pre>
+                <code class="language-html">
+                    &lt;div class="progress-bar progress__date progress__workday" 
+                        role="progressbar" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="1 Декабря" 
+                        style="--daysInMonth: 31;"&gt;
+                    &lt;/div&gt;
+                </code>
+            </pre>
+    
+            <p style="margin-bottom: 0;"><b>CSS стиль</b></p>
+            <pre>
+                <code class="css">
+                    .progress__date.progress__workday {
+                        background-color: var(--primary);
+                    }
+                </code>
+            </pre>
+        </details>
+        
+        <details open>
+            <summary><h4 style="display: inline;">Выходной день</h4></summary>
+            
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Описание</b></p>
+            <p><b>progress__weekend</b> - CSS класс отображающий выходной день в календаре.</p>
+
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Отображение</b></p>
+            <div class="progress mg-b-2">
+                <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="2 Декабря"  style="width: calc((1% / 31) * 100);"></div>
+            </div>
+
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>HTML код</b></p>
+            <pre>
+                <code class="language-html">
+                    &lt;div class="progress-bar progress__date progress__weekend" 
+                        role="progressbar" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="2 Декабря" 
+                        style="--daysInMonth: 31;"&gt;
+                    &lt;/div&gt;
+                </code>
+            </pre>
+    
+            <p style="margin-bottom: 0;"><b>CSS стиль</b></p>
+            <pre>
+                <code class="css">
+                    .progress__date.progress__weekend {
+                        background-color: var(--success);
+                    }
+                </code>
+            </pre>
+        </details>
+
+        <details open>
+            <summary><h4 style="display: inline;">Праздничный день</h4></summary>
+            
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Описание</b></p>
+            <p><b>progress__holiday</b> - CSS класс отображающий праздничный день в календаре.</p>
+    
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Отображение</b></p>
+            <div class="progress mg-b-2">
+                <div class="progress-bar progress__date progress__holiday" role="progressbar" data-toggle="tooltip" data-placement="top" title="3 Декабря"  style="width: calc((1% / 31) * 100);"></div>
+            </div>
+
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>HTML код</b></p>
+            <pre>
+                <code class="language-html">
+                    &lt;div class="progress-bar progress__date progress__holiday" 
+                        role="progressbar" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="2 Декабря" 
+                        style="--daysInMonth: 31;"&gt;
+                    &lt;/div&gt;
+                </code>
+            </pre>
+    
+            <p style="margin-bottom: 0;"><b>CSS стиль</b></p>
+            <pre>
+                <code class="css">
+                    .progress__date.progress__holiday {
+                        background-color: var(--warning);
+                    }
+                </code>
+            </pre>
+        </details>
+
+        <details open>
+            <summary><h4 style="display: inline;">Текущий день</h4></summary>
+            
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Описание</b></p>
+            <p><b>progress__currentday</b> - CSS класс, работает с любым типом дней в progress bar. 
+                Изменяющий прозрачность этого и находящиеся перед ним днями.</p>
+    
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>Отображение</b></p>
+            <div class="progress mg-b-2">
+                <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="4 Декабря"  style="width: calc((1% / 31) * 100);"></div>
+                <div class="progress-bar progress__date progress__workday progress__currentday" role="progressbar" data-toggle="tooltip" data-placement="top" title="5 Декабря - Текущий день"  style="width: calc((1% / 31) * 100);"></div>
+                <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="6 Декабря"  style="width: calc((1% / 31) * 100);"></div>
+                <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="7 Декабря"  style="width: calc((1% / 31) * 100);"></div>          
+            </div>
+
+            <p style="margin-bottom: 0; margin-top: 1em;"><b>HTML код</b></p>
+            <pre>
+                <code class="language-html">
+                    &lt;div class="progress-bar progress__date progress__workday progress__currentday" 
+                        role="progressbar" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="5 Декабря" 
+                        style="--daysInMonth: 31;"&gt;
+                    &lt;/div&gt;
+                </code>
+            </pre>
+    
+            <p style="margin-bottom: 0;"><b>CSS стиль</b></p>
+            <pre>
+                <code class="css">
+                    .progress__date.progress__currentday {
+                        opacity: 0.9;
+                    }
+                </code>
+            </pre>
+        </details>
+    </div>
+
+    <h3>Примеры</h3>
+
+    <h5>Декабрь</h5>
+
+    <div class="progress mg-b-2">
+        <!-- DOM object as amount of days in the month -->
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="1 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="2 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="3 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="4 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="5 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="6 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="7 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="8 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="9 Декабря"  style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="10 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="11 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="12 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="13 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="14 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday progress__currentday" role="progressbar" data-toggle="tooltip" data-placement="top" title="15 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__holiday" role="progressbar" data-toggle="tooltip" data-placement="top" title="16 Декабря - День Независимости" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__holiday" role="progressbar" data-toggle="tooltip" data-placement="top" title="17 Декабря - День Независимости" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__holiday" role="progressbar" data-toggle="tooltip" data-placement="top" title="18 Декабря - День Независимости" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="19 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="20 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="21 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="22 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="23 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="24 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="25 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="26 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="27 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="28 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="29 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="30 Декабря" style="--daysInMonth: 31;"></div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="31 Декабря" style="--daysInMonth: 31;"></div>
+    </div> 
+
+    <h5 style="margin-top: 1em;">Февраль</h5>
+
+    <div class="progress mg-b-20">  
+        <!-- DOM object as amount of days in the month -->
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="1  Февраля"  style="--daysInMonth: 28;">1</div>
+        
+        
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="2  Февраля"  style="--daysInMonth: 28;">2</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="3  Февраля"  style="--daysInMonth: 28;">3</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="4  Февраля"  style="--daysInMonth: 28;">4</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="5  Февраля"  style="--daysInMonth: 28;">5</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="6  Февраля"  style="--daysInMonth: 28;">6</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="7  Февраля"  style="--daysInMonth: 28;">7</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="8  Февраля"  style="--daysInMonth: 28;">8</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="9  Февраля"  style="--daysInMonth: 28;">9</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="10 Февраля"  style="--daysInMonth: 28;">10</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="11 Февраля"  style="--daysInMonth: 28;">11</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="12 Февраля"  style="--daysInMonth: 28;">12</div>
+        <div class="progress-bar progress__date progress__weekend  progress__currentday" role="progressbar" data-toggle="tooltip" data-placement="top" title="13 Февраля"  style="--daysInMonth: 28;">13</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="14 Февраля"  style="--daysInMonth: 28;">14</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="15 Февраля"  style="--daysInMonth: 28;">15</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="16 Февраля"  style="--daysInMonth: 28;">16</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="17 Февраля"  style="--daysInMonth: 28;">17</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="18 Февраля"  style="--daysInMonth: 28;">18</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="19 Февраля"  style="--daysInMonth: 28;">19</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="20 Февраля"  style="--daysInMonth: 28;">20</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="21 Февраля"  style="--daysInMonth: 28;">21</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="22 Февраля"  style="--daysInMonth: 28;">22</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="23 Февраля"  style="--daysInMonth: 28;">23</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="24 Февраля"  style="--daysInMonth: 28;">24</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="25 Февраля"  style="--daysInMonth: 28;">25</div>
+        <div class="progress-bar progress__date progress__workday" role="progressbar" data-toggle="tooltip" data-placement="top" title="26 Февраля"  style="--daysInMonth: 28;">26</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="27 Февраля"  style="--daysInMonth: 28;">27</div>
+        <div class="progress-bar progress__date progress__weekend" role="progressbar" data-toggle="tooltip" data-placement="top" title="28 Февраля"  style="--daysInMonth: 28;">28</div>
+    </div> 
+
+    <footer style="height: 10em;"></footer>
+
+    <style>
+        .progress__date {
+            cursor: pointer;
+            opacity: 0.5;
+            width: calc((1% / var(--daysInMonth)) * 100);
+        }
+
+        .progress__date.progress__separator {
+            border-right: 1px solid #e9ecef;
+        }
+
+        .progress__date:hover {
+            opacity: 1 !important;
+        }
+
+        .progress__date.progress__workday {
+            background-color: var(--primary);
+        }
+
+        .progress__date.progress__weekend {
+            background-color: var(--success);
+        }
+
+        .progress__date.progress__holiday {
+            background-color: var(--warning);
+        }
+
+        .progress__date.progress__currentday {
+            opacity: 0.9;
+        }
+    </style>
+          
+    <!-- For use with calendar -->
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+    <!-- For docs -->
+    <script src="highlight/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- For docs end -->
+
+    <!-- For use with calendar -->
+    <script>
+        // Initialize tooltip
+        $('[data-toggle="tooltip"]').tooltip({
+            template: '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+        });
+
+        $('[data-toggle="tooltip-primary"]').tooltip({
+            template: '<div class="tooltip" role="tooltip"><div class="arrow color-primary"></div><div class="tooltip-inner  bg-primary"></div></div>'
+        });
+
+        // Select previous days
+        $('.progress__date.progress__currentday').prevAll('.progress__date').css('opacity', '0.9');
+    </script>  
+</body>
+</html>
